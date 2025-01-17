@@ -71,6 +71,7 @@ https://<api-id>.execute-api.<region>.amazonaws.com/default/convert
    ```bash
    python -m venv venv
    source venv/bin/activate   # En Windows: .\venv\Scripts\activate
+   pip install -r requirements.txt
    ```
 
 3. Ejecuta el servidor local:
