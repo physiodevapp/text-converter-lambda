@@ -1,16 +1,28 @@
-from flask import Flask, request, jsonify
+from fastapi import FastAPI
+from pydantic import BaseModel
 from mangum import Mangum
+import os
+import logging
 
-app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-@app.route('/convert', methods=['POST'])
-def convert_text():
-    data = request.json
-    if not data or 'text' not in data:
-        return jsonify({"error": "Missing 'text' in request body"}),
-        400
-    
-    converted_text = data['text'].upper()
-    return jsonify({"converted_text": converted_text})
+app = FastAPI()
 
-handler = Mangum(app)
+class TextRequest(BaseModel):
+    text: str
+
+@app.post("/convert")
+async def convert_text(request: TextRequest):
+    logger.info(f"Received request: {request}")
+    converted_text = request.text.upper()
+    logger.info(f"Converted text: {converted_text}")
+    return {"converted_text": converted_text}
+
+if os.getenv("AWS_EXECUTION_ENV"):
+    handler = Mangum(app)
+
+if __name__ == "__main__":
+    import uvicorn
+    logger.info("Running locally with Uvicorn...")
+    uvicorn.run(app, host="0.0.0.0", port=8080)
