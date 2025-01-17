@@ -17,7 +17,7 @@ async def convert_text(request: TextRequest):
     logger.info(f"Received request: {request}")
     converted_text = request.text.upper()
     logger.info(f"Converted text: {converted_text}")
-    return {"converted_text": converted_text}
+    return {"converted_value": converted_text}
 
 if os.getenv("AWS_EXECUTION_ENV"):
     handler = Mangum(app)
