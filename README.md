@@ -69,9 +69,8 @@ https://<api-id>.execute-api.<region>.amazonaws.com/default/convert
 
 2. Crea un entorno virtual e instala las dependencias:
    ```bash
-   python -m venv venv
-   source venv/bin/activate   # En Windows: .\venv\Scripts\activate
-   pip install -r requirements.txt
+   docker build -t text-converter-local -f Dockerfile.local .
+   docker run -p 8000:8000 text-converter-local
    ```
 
 3. Ejecuta el servidor local:
