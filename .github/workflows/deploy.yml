@@ -1,0 +1,38 @@
+name: Deploy to AWS Lambda
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        users: actions/checkout@v3
+
+      - name: Log in to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build Docker image
+        run: |
+          docker build -t text-converter-api .
+
+      - name: Tag Docker image
+        run: |
+          docker tag text-converter-api:latest ${{ secrets.ECR_REPOSITORY_URL }}:latest
+
+      - name: Push Docker image to ECR
+      run: |
+        docker push ${{ secrets.ECR_REPOSITORY_URL }}:latest
+
+      - name: Deploy to AWS Lambda
+        run: |
+          aws lambda update-function-code \
+          --function-name text-converter-api \
+          --image-uri ${{ secrets.ECR_REPOSITORY_URL }}:latest \
+          --region eu-west-3
