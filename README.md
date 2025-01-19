@@ -53,7 +53,8 @@ https://<api-id>.execute-api.<region>.amazonaws.com/default/convert
 ### **Respuesta esperada**
 ```json
 {
-  "converted_text": "HELLO"
+  "converted_word": "CAR",
+  "category": "short"
 }
 ```
 
