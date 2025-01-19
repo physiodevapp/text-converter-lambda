@@ -75,7 +75,7 @@ https://<api-id>.execute-api.<region>.amazonaws.com/default/convert
 
 3. Ejecuta el servidor local:
    ```bash
-   uvicorn lambda_handler:app --host 0.0.0.0 --port 8000
+   uvicorn app:app --host 0.0.0.0 --port 8000
    ```
 
 4. Accede a la API en: [http://localhost:8000](http://localhost:8000)
